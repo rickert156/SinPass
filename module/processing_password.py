@@ -1,6 +1,6 @@
 from SinCity.colors import RED, RESET, YELLOW, GREEN, BLUE
 from manifest import dir_password
-import os, json
+import os, json, shutil
 
 def ListCategory():
     list_category = []
@@ -100,3 +100,25 @@ def showPass(select_data:str):
             user = value['user']
             password = value['password']
     return service, user, password
+
+# Удаление целой категории
+def DeleteCategory():
+    list_category = os.listdir(dir_password)
+    number_category = 0
+    if len(list_category) > 0:
+        print('All Category:')
+        for category in list_category:
+            number_category+=1
+            print(f'{RED}[{number_category}] {category}{RESET}')
+        
+        try:
+            select_category = int(input('Select Category: '))
+            select_category = select_category-1
+            target_category = list_category[select_category]
+            approve = input(f'{RED}Delete dir: {target_category}?{RESET}(y/N) ')
+            if approve == 'y':
+                shutil.rmtree(f'{dir_password}/{target_category}')
+                print(f'{RED}Delete dir: {target_category}{RESET}')
+            else:print(f'{GREEN}Cancel{RESET}')
+        except IndexError:print(f'{RED}Incorrect select!{RESET}')
+    else:print(f'{RED}Нет категорий для удаления{RESET}')
