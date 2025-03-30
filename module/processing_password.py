@@ -12,7 +12,8 @@ def ListCategory():
 
     return list_category, list_other
 
-def ShowPasswords():
+# Первичная обработка 
+def ProcessingPasswords(mode:str):
     list_path = []
     categories, other_pass = ListCategory()
     if len(categories) > 0:
@@ -45,20 +46,14 @@ def ShowPasswords():
     else:
         search_data = input("Enter user or email: ")
         print(f'Search by: {search_data}...')
-        select_variant = CollectedResult(search=search_data, list_path=list_path)
+        select_variant = ProcessingResult(
+                search=search_data, 
+                list_path=list_path, 
+                mode=mode
+                )
 
-def showPass(select_data:str):
-    user = None
-    password = None
-    with open(select_data, 'r') as file:
-        data = json.load(file)
-        for service, value in data.items():
-            service = service
-            user = value['user']
-            password = value['password']
-    return service, user, password
-
-def CollectedResult(search:str, list_path:[]):
+# Обрабатываем данные. В конце показываем/удаляем данные
+def ProcessingResult(search:str, list_path:[], mode:str):
     sorted_list = []
     for full_path_json in list_path:
         if search in full_path_json:
@@ -79,11 +74,29 @@ def CollectedResult(search:str, list_path:[]):
         try:
             show_select_data = int(input("Select number: "))
             select_data = sorted_list[show_select_data-1]
-            service, user, password = showPass(select_data=select_data)
-            print(
-                    f'\nService:\t{service}\n'
-                    f'User/Email:\t{user}\n'
-                    f'Password:\t{password}\n'
-                    )
+            if mode == 'show':
+                service, user, password = showPass(select_data=select_data)
+                print(
+                        f'\nService:\t{service}\n'
+                        f'User/Email:\t{user}\n'
+                        f'Password:\t{password}\n'
+                        )
+            if mode == 'delete':
+                service = select_data.split('/')[-1]
+                approve = input(f'Remove data {RED}{service}?{RESET}(y/N) ')
+                if approve == 'y':
+                    os.remove(select_data)
+                    print(f'Deleted {RED}{service}{RESET}!')
         except IndexError:print(f'{RED}Incorrect select!{RESET}')
 
+# Показываем пароль
+def showPass(select_data:str):
+    user = None
+    password = None
+    with open(select_data, 'r') as file:
+        data = json.load(file)
+        for service, value in data.items():
+            service = service
+            user = value['user']
+            password = value['password']
+    return service, user, password
