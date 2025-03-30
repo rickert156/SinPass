@@ -55,6 +55,15 @@ def CreateNewCategory():
             for category in list_category:
                 number_category+=1
                 print(f'[{number_category}] {category}')
+            try:
+                select_category = int(input("Select Category: "))
+                select_category = select_category-1
+                category = list_category[select_category]
+                category_path = f'{dir_password}/{category}'
+                print(category_path)
+                return category_path 
+            except IndexError:print(f'{RED}Incorrect select!{RESET}')
+            
         else: 
             category_state = False
             category_name = category_state
