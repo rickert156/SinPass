@@ -20,18 +20,27 @@ def SavePassword():
         current_data = CurrentState()
         create_category = CreateNewCategory()
         service = input('Service Domain/Name: ')
+        user_name = input('User/Email: ')
         password = input('Password: ')
         if create_category:path_dir = create_category
         else:path_dir = dir_password
-        RecordingNewPassword(path_dir=path_dir, service=service, password=password)
+        RecordingNewPassword(
+                path_dir=path_dir, 
+                service=service, 
+                user_name=user_name,
+                password=password
+                )
         
-        
-
     except Exception as err:print(f'{RED}{err}{RESET}')
 
-def RecordingNewPassword(path_dir:str, service:str, password:str):
-    path_password = f'{path_dir}/{service}'
-    data = {service:password}
+def RecordingNewPassword(path_dir:str, service:str, password:str, user_name:str):
+    path_password = f'{path_dir}/{service}.json'
+    data = {
+            service:{
+                "user":user_name,
+                "password":password
+                     }
+            }
     with open(path_password, 'w') as file:
         json.dump(data, file, indent=4)
 
@@ -60,7 +69,6 @@ def CreateNewCategory():
                 select_category = select_category-1
                 category = list_category[select_category]
                 category_path = f'{dir_password}/{category}'
-                print(category_path)
                 return category_path 
             except IndexError:print(f'{RED}Incorrect select!{RESET}')
             

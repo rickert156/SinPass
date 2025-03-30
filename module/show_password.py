@@ -13,6 +13,7 @@ def ListCategory():
     return list_category, list_other
 
 def ShowPasswords():
+    list_path = []
     categories, other_pass = ListCategory()
     if len(categories) > 0:
         number_category = 0
@@ -20,10 +21,15 @@ def ShowPasswords():
             number_category+=1
             number_service=0
             category_split = category.split('/')[1]
+
             print(f'{BLUE}[{number_category}] {category_split}{RESET}')
             for service in os.listdir(category):
                 number_service+=1
-                print(f'\t{GREEN}[{number_service}] {service}{RESET}')
+                service_split = service
+                if '.json' in service_split:service_split = service_split.split('.json')[0]
+                print(f'\t{GREEN}[{number_service}] {service_split}{RESET}')
+                
+                list_path.append(f'{category}/{service}')
 
     if len(other_pass) > 0:
         number_other = 0
@@ -31,6 +37,30 @@ def ShowPasswords():
             number_other+=1
             other_split = other.split('/')[1]
             print(f'{GREEN}[{number_other}] {other_split}{RESET}')
+            list_path.append(other)
     
     if len(categories) == 0 and len(other_pass) == 0:
         print(f'{RED}Список паролей пуст!{RED}')
+
+    else:
+        search_data = input("Enter user or email: ")
+        print(f'Search by: {search_data}...')
+        select_variant = CollectedResult(search=search_data, list_path=list_path)
+
+def CollectedResult(search:str, list_path:[]):
+    sorted_list = []
+    for full_path_json in list_path:
+        if search in full_path_json:
+            path_password = full_path_json
+            sorted_list.append(full_path_json)
+    
+    if len(sorted_list) == 0:print(f'{RED}Совпадений не найдено{RESET}')
+    if len(sorted_list) != 0:
+        number_password=0
+        for result in sorted_list:
+            number_password+=1
+            path_password = result.split(f'{dir_password}/')[1]
+            category, service = path_password.split('/')
+
+            print(f'[{number_password}] {category}:\t{service}')
+
