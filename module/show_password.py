@@ -47,6 +47,17 @@ def ShowPasswords():
         print(f'Search by: {search_data}...')
         select_variant = CollectedResult(search=search_data, list_path=list_path)
 
+def showPass(select_data:str):
+    user = None
+    password = None
+    with open(select_data, 'r') as file:
+        data = json.load(file)
+        for service, value in data.items():
+            service = service
+            user = value['user']
+            password = value['password']
+    return service, user, password
+
 def CollectedResult(search:str, list_path:[]):
     sorted_list = []
     for full_path_json in list_path:
@@ -61,6 +72,18 @@ def CollectedResult(search:str, list_path:[]):
             number_password+=1
             path_password = result.split(f'{dir_password}/')[1]
             category, service = path_password.split('/')
+            if '.json' in service:service = service.split('.json')[0]
 
-            print(f'[{number_password}] {category}:\t{service}')
+            print(f'[{number_password}] {category}:\t{BLUE}{service}{RESET}')
+
+        try:
+            show_select_data = int(input("Select number: "))
+            select_data = sorted_list[show_select_data-1]
+            service, user, password = showPass(select_data=select_data)
+            print(
+                    f'\nService:\t{service}\n'
+                    f'User/Email:\t{user}\n'
+                    f'Password:\t{password}\n'
+                    )
+        except IndexError:print(f'{RED}Incorrect select!{RESET}')
 
