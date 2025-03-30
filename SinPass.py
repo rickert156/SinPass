@@ -1,7 +1,7 @@
 from SinCity.colors import RED, RESET, GREEN, BLUE
 from manifest import version 
 from module.new_password import GetNewPassword, SavePassword
-from module.show_password import ShowPasswors
+from module.show_password import ShowPasswords
 from module.miniTools import StartSinPass
 
 import json, os
@@ -21,7 +21,7 @@ def menuSinPass():
 
     if select_task == 1:print(GetNewPassword())
     if select_task == 2:SavePassword()
-    if select_task == 3:print(ShowPasswors())
+    if select_task == 3:ShowPasswords()
 
 try:
     menuSinPass()
