@@ -1,5 +1,5 @@
 import json, os
-from manifest import dir_password 
+from global_var import dir_password 
 
 # Инициализация утилиты
 def StartSinPass():

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from SinCity.colors import RED, RESET, GREEN, BLUE
 from manifest import version 
 from module.new_password import GetNewPassword, SavePassword
@@ -5,7 +6,6 @@ from module.processing_password import ProcessingPasswords, DeleteCategory
 from module.miniTools import StartSinPass
 
 import json, os
-
 
 def menuSinPass():
     StartSinPass()

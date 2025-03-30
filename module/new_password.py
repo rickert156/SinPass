@@ -1,7 +1,7 @@
 from SinCity.DataGenerate.text_generator import generator 
 from SinCity.colors import RED, RESET
 from module.miniTools import CurrentState
-from manifest import dir_password 
+from global_var import dir_password 
 import json, os
 
 # Генерируем пароль, но не сохраняем

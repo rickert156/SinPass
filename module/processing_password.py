@@ -1,6 +1,7 @@
 from SinCity.colors import RED, RESET, YELLOW, GREEN, BLUE
-from manifest import dir_password
+from global_var import dir_password
 import os, json, shutil
+
 
 def ListCategory():
     list_category = []
