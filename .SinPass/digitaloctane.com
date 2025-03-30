@@ -1,3 +1,0 @@
-{
-    "digitaloctane.com": "incorrect.de"
-}
