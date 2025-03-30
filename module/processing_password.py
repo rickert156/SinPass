@@ -44,8 +44,8 @@ def ProcessingPasswords(mode:str):
         print(f'{RED}Список паролей пуст!{RED}')
 
     else:
-        search_data = input("Enter user or email: ")
-        print(f'Search by: {search_data}...')
+        search_data = input("\nEnter user or email: ")
+        print(f'Search by: {search_data}...\n')
         select_variant = ProcessingResult(
                 search=search_data, 
                 list_path=list_path, 
@@ -72,7 +72,7 @@ def ProcessingResult(search:str, list_path:[], mode:str):
             print(f'[{number_password}] {category}:\t{BLUE}{service}{RESET}')
 
         try:
-            show_select_data = int(input("Select number: "))
+            show_select_data = int(input("\nSelect number: "))
             select_data = sorted_list[show_select_data-1]
             if mode == 'show':
                 service, user, password = showPass(select_data=select_data)
@@ -81,6 +81,14 @@ def ProcessingResult(search:str, list_path:[], mode:str):
                         f'User/Email:\t{user}\n'
                         f'Password:\t{password}\n'
                         )
+
+            if mode == 'update':
+                updateP=updateData(
+                        select_data=select_data,
+                        user=input('New User/Email: '),
+                        password=input('New Password: ')
+                        ) 
+            
             if mode == 'delete':
                 service = select_data.split('/')[-1]
                 approve = input(f'Remove data {RED}{service}?{RESET}(y/N) ')
@@ -100,6 +108,18 @@ def showPass(select_data:str):
             user = value['user']
             password = value['password']
     return service, user, password
+
+def updateData(select_data:str, user:str, password:str):
+    with open(select_data, 'r') as file:
+        data = json.load(file)
+    
+    service = list(data.keys())[0]
+
+    data[service]["user"] = user
+    data[service]["password"] = password
+    with open(select_data, 'w') as file:
+        json.dump(data, file, indent=4)
+        print(f'{GREEN}Password updated!{RESET}')
 
 # Удаление целой категории
 def DeleteCategory():

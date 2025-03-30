@@ -23,6 +23,7 @@ def menuSinPass():
     if select_task == 1:print(GetNewPassword())
     if select_task == 2:SavePassword()
     if select_task == 3:ProcessingPasswords(mode='show')
+    if select_task == 4:ProcessingPasswords(mode='update')
     if select_task == 5:ProcessingPasswords(mode='delete')
     if select_task == 6:DeleteCategory()
 
