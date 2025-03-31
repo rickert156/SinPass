@@ -22,9 +22,9 @@ def ProcessingPasswords(mode:str):
         for category in categories:
             number_category+=1
             number_service=0
-            category_split = category.split('/')[1]
+            category_split = category.split('/')[-1]
 
-            print(f'{BLUE}[{number_category}] {category}{RESET}')
+            print(f'{BLUE}[{number_category}] {category_split}{RESET}')
             for service in os.listdir(category):
                 number_service+=1
                 service_split = service
