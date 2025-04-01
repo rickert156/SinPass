@@ -1,5 +1,5 @@
 import random
-from SinCity.DataGenerate.alphabet import alphabet_en, numbers
+from SinCity.DataGenerate.alphabet import alphabet_en, numbers, chars
 
 def collected_char():
     list_char = []
@@ -12,6 +12,7 @@ def collected_char():
 
     collected(data_list=alphabet_en)
     collected(data_list=numbers)
+    collected(data_list=chars)
     
     return list_char
 
